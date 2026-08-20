@@ -2,10 +2,12 @@ import{Page,Locator} from "@playwright/test";
 export class Products{
 readonly validateproducts:Locator;
 readonly cartbutton:Locator;
+readonly dropdown:Locator;
 
 constructor(private page:Page){
     this.validateproducts=page.getByText("Products");
     this.cartbutton=page.locator(".shopping_cart_link");
+    this.dropdown=page.locator(".product_sort_container");
 }
 
 async Addcart(produtname:string){
@@ -18,7 +20,9 @@ async carticon(){
     await this.cartbutton.click();
 }
 
-
+async drop(option:string){
+    await this.dropdown.selectOption(option);
+}
 
 
 }

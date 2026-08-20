@@ -88,4 +88,40 @@ await producttext.carticon();
 
 })
 
+test("click on the dropdown and purchase",async({page})=>{
+    const urllogin = new LoginPage(page);
+  await urllogin.open();
+  await urllogin.login("standard_user", "secret_sauce");
+
+  const producttext = new Products(page);
+ await expect(producttext.validateproducts).toBeVisible();
+ await producttext.drop("za");
+ await producttext.Addcart("Test.allTheThings() T-Shirt (Red)")
+  await producttext.carticon();
+
+  const cartpage = new CartPage(page);
+  await expect(cartpage.yourcarttext).toBeVisible();
+  await cartpage.checkbutton();
+
+  const checkinfo = new CheckoutInformation(page);
+  await expect(checkinfo.checkoutinfo).toBeVisible();
+  await checkinfo.enterfirstname("Saketh");
+  await checkinfo.enterlastname("Ananthula");
+  await checkinfo.enterportal("500039");
+  await checkinfo.clickoncontinue();
+
+  
+  const overviewpage = new CheckoutOverview(page);
+  await expect(overviewpage.overviewtext).toBeVisible();
+  await expect(overviewpage.validateproduct).toHaveText("Test.allTheThings() T-Shirt (Red)");
+  await expect(overviewpage.validateprice).toHaveText("$15.99");
+  await overviewpage.finish();
+
+  const complete = new CheckoutComplete(page);
+  await expect(complete.completetext).toBeVisible();
+  await expect(complete.Thankyoutext).toBeVisible();
+  await complete.homebutton();
+
+})
+
 
