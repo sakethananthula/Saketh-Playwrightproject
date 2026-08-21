@@ -212,7 +212,7 @@ test("Verify the Logout",async({page})=>{
 
 })
 
-test.only("click on the Price Low to high dropdown and validate the price ",async({page})=>{
+test("click on the Price Low to high dropdown and validate the prices ",async({page})=>{
     const urllogin = new LoginPage(page);
   await urllogin.open();
   await urllogin.login("standard_user", "secret_sauce");
@@ -230,5 +230,37 @@ expect(numericprice).toEqual(sortedPrices);
 
 
 })
+test("click on the Price high to Low dropdown and validate the prices",async({page})=>{
+    const urllogin=new LoginPage(page);
+    await urllogin.open();
+  await urllogin.login("standard_user", "secret_sauce");
+    
+    const producttext = new Products(page);
+ await expect(producttext.validateproducts).toBeVisible();
+ await producttext.drop("hilo");
+//  await expect(producttext.productprices).toBeVisible();
+
+ const prices =await producttext.productprices.allTextContents();
+const numericprice =prices.map(prices => Number (prices.replace("$","")));
+const sortedPrices = [...numericprice].sort((a, b) => b-a);
+
+expect(numericprice).toEqual(sortedPrices);
+
+})
+
+test("Add all products to cart", async ({ page }) => {
+  const urllogin = new LoginPage(page);
+  await urllogin.open();
+  await urllogin.login("standard_user", "secret_sauce");
+
+  const producttext = new Products(page);
+
+   await expect(producttext.validateproducts).toBeVisible();
+
+    await producttext.addallproducts();
+
+
+})
+
 
 
