@@ -5,8 +5,7 @@ export class CheckoutOverview{
     readonly validateprice:Locator;
     readonly validateproduct:Locator;
 
-
-    constructor(private page:Page){
+constructor(private page:Page){
         this.overviewtext=page.getByText("Checkout: Overview");
         this.validateproduct=page.locator(".inventory_item_name");
         this.validateprice=page.locator(".inventory_item_price")

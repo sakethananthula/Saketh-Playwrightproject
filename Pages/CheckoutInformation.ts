@@ -5,6 +5,7 @@ export class CheckoutInformation{
     readonly lastnametextbox:Locator;
     readonly postaltextbox:Locator;
     readonly continuebutton:Locator;
+    readonly error:Locator;
 
     constructor(private page:Page){
         this.checkoutinfo=page.getByText('Checkout: Your Information');
@@ -12,6 +13,7 @@ export class CheckoutInformation{
         this.lastnametextbox=page.locator("#last-name");
         this.postaltextbox=page.locator("#postal-code");
         this.continuebutton=page.locator('#continue');
+        this.error=page.locator('[data-test="error"]')
     }
 
     async enterfirstname(firstname:string){

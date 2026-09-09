@@ -262,5 +262,126 @@ test("Add all products to cart", async ({ page }) => {
 
 })
 
+test("Verify cart count after selecting multiple products",async({page})=>{
+  const urllogin = new LoginPage(page);
+  await urllogin.open();
+  await urllogin.login("standard_user", "secret_sauce");
+
+  const producttext = new Products(page);
+
+  await expect(producttext.validateproducts).toBeVisible();
+  await producttext.Addcart("Sauce Labs Backpack");
+  await producttext.Addcart("Sauce Labs Bolt T-Shirt");
+  await producttext.Addcart("Sauce Labs Onesie");
+
+  await expect(producttext.cartbutton).toHaveText("3");
+
+  await producttext.carticon();
+
+  const cartpage = new CartPage(page);
+  await expect(cartpage.yourcarttext).toBeVisible();
+  await cartpage.checkbutton();
+
+  const checkinfo = new CheckoutInformation(page);
+  await expect(checkinfo.checkoutinfo).toBeVisible();
+  await checkinfo.enterfirstname("Saketh");
+  await checkinfo.enterlastname("Ananthula");
+  await checkinfo.enterportal("500039");
+  await checkinfo.clickoncontinue();
+
+  
+  const overviewpage = new CheckoutOverview(page);
+  await expect(overviewpage.overviewtext).toBeVisible();
+  await expect(overviewpage.validateproduct.nth(0)).toHaveText("Sauce Labs Backpack");
+  await expect (overviewpage.validateproduct.nth(1)).toHaveText("Sauce Labs Bolt T-Shirt");
+    await expect (overviewpage.validateproduct.nth(2)).toHaveText("Sauce Labs Onesie");
 
 
+  // await expect(overviewpage.validateprice).toHaveText("$29.99");
+  await overviewpage.finish();
+
+})
+
+test("Verify empty first name",async({page})=>{
+  const urllogin = new LoginPage(page);
+  await urllogin.open();
+  await urllogin.login("standard_user", "secret_sauce");
+
+  const producttext = new Products(page);
+
+  await expect(producttext.validateproducts).toBeVisible();
+  await producttext.Addcart("Sauce Labs Backpack");
+  
+
+ 
+  await producttext.carticon();
+
+  const cartpage = new CartPage(page);
+  await expect(cartpage.yourcarttext).toBeVisible();
+  await cartpage.checkbutton();
+
+  const checkinfo = new CheckoutInformation(page);
+  await expect(checkinfo.checkoutinfo).toBeVisible();
+  
+  await checkinfo.enterlastname("Ananthula");
+  await checkinfo.enterportal("500039");
+  await checkinfo.clickoncontinue();
+  await expect(checkinfo.error).toHaveText("Error: First Name is required");
+
+})
+
+test.only("Verify empty lastname",async({page})=>{
+  const urllogin = new LoginPage(page);
+  await urllogin.open();
+  await urllogin.login("standard_user", "secret_sauce");
+
+  const producttext = new Products(page);
+
+  await expect(producttext.validateproducts).toBeVisible();
+  await producttext.Addcart("Sauce Labs Backpack");
+  
+
+ 
+  await producttext.carticon();
+
+  const cartpage = new CartPage(page);
+  await expect(cartpage.yourcarttext).toBeVisible();
+  await cartpage.checkbutton();
+
+  const checkinfo = new CheckoutInformation(page);
+  await expect(checkinfo.checkoutinfo).toBeVisible();
+  
+  await checkinfo.enterfirstname("saketh")
+  await checkinfo.enterportal("500039");
+  await checkinfo.clickoncontinue();
+  await expect(checkinfo.error).toHaveText("Error: Last Name is required");
+
+})
+
+test.only("Verify empty postal code",async({page})=>{
+  const urllogin = new LoginPage(page);
+  await urllogin.open();
+  await urllogin.login("standard_user", "secret_sauce");
+
+  const producttext = new Products(page);
+
+  await expect(producttext.validateproducts).toBeVisible();
+  await producttext.Addcart("Sauce Labs Backpack");
+  
+
+ 
+  await producttext.carticon();
+
+  const cartpage = new CartPage(page);
+  await expect(cartpage.yourcarttext).toBeVisible();
+  await cartpage.checkbutton();
+
+  const checkinfo = new CheckoutInformation(page);
+  await expect(checkinfo.checkoutinfo).toBeVisible();
+  
+  await checkinfo.enterlastname("Ananthula");
+  await checkinfo.enterfirstname("Saketh")
+  await checkinfo.clickoncontinue();
+  await expect(checkinfo.error).toHaveText("Error: Postal Code is required");
+
+})
