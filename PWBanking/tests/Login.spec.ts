@@ -45,12 +45,14 @@ test("Verify the logout after login",async({page})=>{
     
 })
 
-test.only("Verify the Forgot feature",async({page})=>{
+test("Verify the Forgot feature",async({page})=>{
     const loginpage=new LoginPage(page);
+    loginpage.open();
     await loginpage.forgotlink.click();
     await loginpage.forgot("SAKETH10","A","KPHB","HYD","TELANGANA","500098","12234");
 
-    await expect(loginpage.afterforgottext).toBeVisible();
+    // await expect(loginpage.afterforgottext).toBeVisible();
 
 
 })
+

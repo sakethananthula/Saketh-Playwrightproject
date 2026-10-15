@@ -8,6 +8,7 @@ export class LoginPage{
   readonly logoutlink:Locator;
 
   readonly forgotlink:Locator;
+  readonly afterforgottext:Locator;
 
   readonly firstname:Locator;
     readonly lastname:Locator;
@@ -40,7 +41,7 @@ this.phone=page.locator('[id="customer.phoneNumber"]');
 this.SSN=page.locator('[id="customer.ssn"]');
 
 this.findbutton=page.getByRole('button',{name:'Find My Login Info'});
-
+this.afterforgottext=page.getByText("")
 }
 async open(){
   await this.page.goto("https://parabank.parasoft.com/parabank/index.htm");
